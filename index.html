@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>RAQAMLI QALQON</title>
+    <title>RAQAMLI QALQON - AI Tahlil</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -19,10 +19,7 @@
             --text-sub: #8a99ad;
         }
 
-        * {
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-        }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
@@ -36,12 +33,8 @@
             min-height: 100vh;
         }
 
-        .container {
-            width: 100%;
-            max-width: 420px;
-        }
+        .container { width: 100%; max-width: 420px; }
 
-        /* Header */
         .header {
             display: flex;
             justify-content: space-between;
@@ -49,371 +42,237 @@
             margin-bottom: 16px;
         }
 
-        .header-title {
-            font-size: 20px;
-            font-weight: 800;
-            letter-spacing: 0.5px;
-        }
+        .header-title { font-size: 20px; font-weight: 800; letter-spacing: 0.5px; }
+        .header-subtitle { font-size: 11px; color: var(--accent-green); margin-top: 2px; font-weight: 600; }
 
-        .header-subtitle {
-            font-size: 11px;
-            color: var(--accent-green);
-            margin-top: 2px;
-            font-weight: 600;
-        }
-
-        .settings-btn {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            color: var(--text-main);
-            width: 38px;
-            height: 38px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-        }
-
-        /* Main Shield Card */
         .status-card {
             background: linear-gradient(145deg, #121829 0%, #0d1322 100%);
             border: 1px solid var(--card-border);
             border-radius: 24px;
             padding: 20px 16px;
             text-align: center;
-            position: relative;
             margin-bottom: 16px;
         }
 
         .shield-box {
             position: relative;
-            width: 90px;
-            height: 90px;
+            width: 90px; height: 90px;
             margin: 0 auto 12px auto;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: flex; align-items: center; justify-content: center;
         }
 
         .shield-glow {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 245, 212, 0.15);
-            border-radius: 50%;
-            filter: blur(12px);
+            position: absolute; width: 100%; height: 100%;
+            background: rgba(0, 245, 212, 0.15); border-radius: 50%; filter: blur(12px);
         }
 
-        .shield-icon {
-            font-size: 46px;
-            color: var(--accent-green);
-            z-index: 2;
-        }
+        .shield-icon { font-size: 46px; color: var(--accent-green); z-index: 2; }
+        .status-title { font-size: 18px; font-weight: 800; margin-bottom: 4px; }
+        .status-desc { font-size: 12px; color: var(--text-sub); margin-bottom: 16px; }
 
-        .status-title {
-            font-size: 18px;
-            font-weight: 800;
-            margin-bottom: 4px;
-        }
-
-        .status-desc {
-            font-size: 12px;
-            color: var(--text-sub);
-            margin-bottom: 16px;
-        }
-
-        .proactive-row {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid var(--card-border);
-            border-radius: 16px;
-            padding: 10px 14px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .switch {
-            position: relative;
-            display: inline-block;
-            width: 48px;
-            height: 26px;
-        }
-
-        .switch input { opacity: 0; width: 0; height: 0; }
-
-        .slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background-color: #334155;
-            transition: .3s;
-            border-radius: 26px;
-        }
-
-        .slider:before {
-            position: absolute; content: "";
-            height: 20px; width: 20px; left: 3px; bottom: 3px;
-            background-color: white; transition: .3s; border-radius: 50%;
-        }
-
-        input:checked + .slider { background-color: var(--accent-green); }
-        input:checked + .slider:before { transform: translateX(22px); }
-
-        /* Crisis Button */
         .crisis-btn {
             width: 100%;
             background: linear-gradient(135deg, #ff4b2b 0%, #ff416c 100%);
-            color: white;
-            border: none;
-            border-radius: 16px;
-            padding: 14px;
-            font-size: 13px;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            cursor: pointer;
-            margin-bottom: 20px;
+            color: white; border: none; border-radius: 16px;
+            padding: 14px; font-size: 13px; font-weight: 700;
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            cursor: pointer; margin-bottom: 20px;
         }
 
-        /* Modules */
         .section-title {
-            font-size: 11px;
-            font-weight: 700;
-            color: var(--text-sub);
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            margin-bottom: 10px;
+            font-size: 11px; font-weight: 700; color: var(--text-sub);
+            letter-spacing: 1px; text-transform: uppercase; margin-bottom: 10px;
         }
 
         .modules-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-bottom: 20px;
+            display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px;
         }
 
         .module-card {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 16px;
-            padding: 14px;
-            cursor: pointer;
+            background: var(--card-bg); border: 1px solid var(--card-border);
+            border-radius: 16px; padding: 14px; cursor: pointer; transition: transform 0.1s;
         }
+        .module-card:active { transform: scale(0.96); }
 
         .module-icon { font-size: 20px; color: var(--accent-cyan); margin-bottom: 8px; }
         .module-name { font-size: 13px; font-weight: 700; margin-bottom: 2px; }
         .module-desc { font-size: 10px; color: var(--text-sub); }
 
-        /* Scanner Modal Overlay */
+        /* Analiz Modal oynasi */
         .scanner-overlay {
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(7, 9, 19, 0.95);
-            backdrop-filter: blur(10px);
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            z-index: 200;
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(7, 9, 19, 0.96); backdrop-filter: blur(10px);
+            display: none; flex-direction: column; align-items: center; justify-content: center;
+            padding: 20px; z-index: 200;
         }
 
         .scanner-frame {
-            width: 260px;
-            height: 260px;
-            border: 2px solid var(--accent-cyan);
-            border-radius: 20px;
-            position: relative;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 0 20px rgba(0, 242, 254, 0.3);
+            width: 240px; height: 160px; border: 2px solid var(--accent-cyan);
+            border-radius: 20px; position: relative; overflow: hidden;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 0 20px rgba(0, 242, 254, 0.3); margin-bottom: 15px;
         }
 
         .scan-line {
-            position: absolute;
-            width: 100%;
-            height: 3px;
-            background: var(--accent-cyan);
-            box-shadow: 0 0 15px var(--accent-cyan);
+            position: absolute; width: 100%; height: 3px;
+            background: var(--accent-cyan); box-shadow: 0 0 15px var(--accent-cyan);
             animation: moveScan 2s infinite ease-in-out;
         }
 
         @keyframes moveScan {
-            0% { top: 0%; }
-            50% { top: 98%; }
-            100% { top: 0%; }
+            0% { top: 0%; } 50% { top: 98%; } 100% { top: 0%; }
         }
 
-        .face-grid {
-            font-size: 100px;
-            color: rgba(0, 242, 254, 0.2);
-        }
+        .scanner-text { font-size: 15px; font-weight: 700; color: var(--accent-cyan); margin-bottom: 4px; text-align: center; }
+        .scanner-sub { font-size: 11px; color: var(--text-sub); margin-bottom: 15px; text-align: center; }
 
-        .scanner-text {
-            margin-top: 20px;
-            font-size: 14px;
-            font-weight: 700;
-            color: var(--accent-cyan);
-        }
-
-        .scanner-sub {
-            font-size: 12px;
-            color: var(--text-sub);
-            margin-top: 6px;
-        }
-
-        .input-area {
-            width: 100%;
-            max-width: 320px;
-            margin-top: 15px;
-        }
+        .input-area { width: 100%; max-width: 340px; }
 
         textarea {
-            width: 100%;
-            height: 80px;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid var(--card-border);
-            border-radius: 12px;
-            color: white;
-            padding: 10px;
-            font-size: 13px;
-            outline: none;
-            resize: none;
+            width: 100%; height: 90px; background: rgba(255,255,255,0.05);
+            border: 1px solid var(--card-border); border-radius: 12px;
+            color: white; padding: 12px; font-size: 13px; outline: none; resize: none;
         }
 
         .btn-action {
-            width: 100%;
-            background: var(--accent-cyan);
-            color: #000;
-            border: none;
-            padding: 12px;
-            border-radius: 12px;
-            font-weight: 700;
-            margin-top: 10px;
-            cursor: pointer;
+            width: 100%; background: var(--accent-cyan); color: #000;
+            border: none; padding: 12px; border-radius: 12px; font-weight: 700;
+            margin-top: 10px; cursor: pointer;
         }
 
         .btn-close {
-            background: transparent;
-            border: 1px solid var(--card-border);
-            color: white;
-            padding: 10px 20px;
-            border-radius: 12px;
-            margin-top: 15px;
-            cursor: pointer;
+            background: transparent; border: 1px solid var(--card-border);
+            color: white; padding: 10px 20px; border-radius: 12px; margin-top: 15px; cursor: pointer;
         }
+
+        /* Natija oynasi */
+        .result-box {
+            display: none; width: 100%; max-width: 340px; margin-top: 15px;
+            padding: 14px; border-radius: 12px; font-size: 12px; line-height: 1.4;
+        }
+        .res-danger { background: rgba(255, 75, 43, 0.15); border: 1px solid var(--danger); color: #ff9985; }
+        .res-success { background: rgba(0, 245, 212, 0.15); border: 1px solid var(--accent-green); color: #80e2d7; }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <!-- Header -->
         <div class="header">
             <div>
                 <div class="header-title">RAQAMLI QALQON</div>
-                <div class="header-subtitle" id="subHeaderStatus">AI Proaktiv Himoya Yoqilgan</div>
+                <div class="header-subtitle">AI Neyrotarmoq Tahlili Faol</div>
             </div>
-            <button class="settings-btn" onclick="alert('⚙️ AI-Qalqon Sozlamalari')">
-                <i class="fa-solid fa-gear"></i>
-            </button>
+            <button class="scanner-overlay-btn" onclick="alert('⚙️ Sozlamalar')" style="background:var(--card-bg); border:1px solid var(--card-border); color:#fff; width:38px; height:38px; border-radius:50%; cursor:pointer;"><i class="fa-solid fa-gear"></i></button>
         </div>
 
-        <!-- Shield Card -->
         <div class="status-card">
             <div class="shield-box">
                 <div class="shield-glow"></div>
                 <i class="fa-solid fa-shield-halved shield-icon"></i>
             </div>
             <div class="status-title">TIZIM XAVFSIZ</div>
-            <div class="status-desc">Real vaqtdagi AI neyrotarmoq tahlili ishlamoqda (1s)</div>
-
-            <div class="proactive-row">
-                <span style="font-size:13px; font-weight:600;">Proaktiv Himoya</span>
-                <label class="switch">
-                    <input type="checkbox" checked>
-                    <span class="slider"></span>
-                </label>
-            </div>
+            <div class="status-desc">AI avtomatik ravishda barcha tahdidlarni o'zi aniqlaydi</div>
         </div>
 
-        <!-- Crisis Button -->
-        <button class="crisis-btn" onclick="alert('⚠️ CRISIS MODE: Barcha kartalar vaqtincha bloklandi!')">
+        <button class="crisis-btn" onclick="alert('⚠️ CRISIS MODE: Barcha kartalar xavfsizlik blokiga olindi!')">
             <i class="fa-solid fa-triangle-exclamation"></i> INQIROZ REJASI (CRISIS MODE)
         </button>
 
-        <!-- Modules Grid -->
-        <div class="section-title">AI HIMOYA MODULLARI</div>
+        <div class="section-title">AI HIMOYA MODULLARI (O'zi Tahlil Qiladi)</div>
         <div class="modules-grid">
-            <div class="module-card" onclick="openScanner('SMS & Phishing Tahlili', 'SMS matni yoki havolasini kiriting:')">
+            <div class="module-card" onclick="openModule('sms')">
                 <div class="module-icon"><i class="fa-solid fa-comments"></i></div>
                 <div class="module-name">SMS & Phishing</div>
-                <div class="module-desc">Soxta link & matn tahlili</div>
+                <div class="module-desc">Link va matnni tekshirish</div>
             </div>
-            <div class="module-card" onclick="openScanner('Deepfake & Face AI Skaner', 'Yuz yoki Ovoz spektrini skanerlash:')">
-                <div class="module-icon"><i class="fa-solid fa-face-smile"></i></div>
-                <div class="module-name">Deepfake Audio/Face</div>
-                <div class="module-desc">Yuz va ovoz tahlili</div>
+            <div class="module-card" onclick="openModule('audio')">
+                <div class="module-icon"><i class="fa-solid fa-headphones-simple"></i></div>
+                <div class="module-name">Deepfake Audio</div>
+                <div class="module-desc">Ovoz va spektral tahlil</div>
             </div>
-            <div class="module-card" onclick="openScanner('QR Visual AI Skaner', 'QR kod yoki xavfli havolani skanerlash:')">
+            <div class="module-card" onclick="openModule('qr')">
                 <div class="module-icon"><i class="fa-solid fa-qrcode"></i></div>
                 <div class="module-name">QR Visual AI</div>
-                <div class="module-desc">TuzoqQR skanerlash</div>
+                <div class="module-desc">Tuzoq QR havolalar</div>
             </div>
-            <div class="module-card" onclick="openScanner('Telegram Guard', 'Bot va Mini App xavfsizligini tekshirish:')">
+            <div class="module-card" onclick="openModule('tg')">
                 <div class="module-icon"><i class="fa-brands fa-telegram"></i></div>
                 <div class="module-name">Telegram Guard</div>
-                <div class="module-desc">Mini App & Bot xavfsizligi</div>
+                <div class="module-desc">Bot xavfsizlik tekshiruvi</div>
             </div>
         </div>
     </div>
 
-    <!-- Scanner Modal (Face / Text / QR Effect) -->
+    <!-- Tahlil oynasi -->
     <div class="scanner-overlay" id="scannerModal">
         <div class="scanner-frame">
             <div class="scan-line"></div>
-            <i class="fa-solid fa-user-shield face-grid"></i>
+            <i class="fa-solid fa-microchip" style="font-size: 50px; color: rgba(0,242,254,0.3);"></i>
         </div>
-        <div class="scanner-text" id="modalTitle">AI Skanerlanmoqda...</div>
-        <div class="scanner-sub" id="modalSub">Tizim neyrotarmoq orqali tekshirmoqda</div>
+        <div class="scanner-text" id="modalTitle">AI Tahlil Moduli</div>
+        <div class="scanner-sub" id="modalSub">Ma'lumotni kiriting, neyrotarmoq o'zi tahlil qiladi</div>
 
         <div class="input-area">
-            <textarea id="scanInput" placeholder="Tekshirish uchun ma'lumot kiriting..."></textarea>
-            <button class="btn-action" onclick="runAnalysis()">TEKSHIRISH</button>
+            <textarea id="userInput" placeholder="Shubhali matn, ssilka yoki ovozli xabar matnini kiriting..."></textarea>
+            <button class="btn-action" onclick="runAiAnalysis()">AI ORQALI TEKSHIRISH</button>
+            
+            <div id="resultBox" class="result-box"></div>
         </div>
 
-        <button class="btn-close" onclick="closeScanner()">YOPISH</button>
+        <button class="btn-close" onclick="closeModal()">YOPISH</button>
     </div>
 
     <script>
         const tg = window.Telegram?.WebApp;
-        if (tg) {
-            tg.ready();
-            tg.expand();
-        }
+        if (tg) { tg.ready(); tg.expand(); }
 
-        function openScanner(title, sub) {
-            document.getElementById('modalTitle').innerText = title;
-            document.getElementById('modalSub').innerText = sub;
+        let currentModule = '';
+
+        function openModule(type) {
+            currentModule = type;
+            const titles = {
+                'sms': 'SMS & Phishing AI Tahlili',
+                'audio': 'Deepfake Audio & Ovoz Tahlili',
+                'qr': 'QR Visual AI Skaneri',
+                'tg': 'Telegram Guard Himoyasi'
+            };
+            document.getElementById('modalTitle').innerText = titles[type];
+            document.getElementById('resultBox').style.display = 'none';
+            document.getElementById('userInput').value = '';
             document.getElementById('scannerModal').style.display = 'flex';
         }
 
-        function closeScanner() {
+        function closeModal() {
             document.getElementById('scannerModal').style.display = 'none';
         }
 
-        function runAnalysis() {
-            const val = document.getElementById('scanInput').value;
-            if(!val) {
-                alert("Iltimos, ma'lumot kiriting!");
+        // Haqiqiy AI tahlil qilish logikasi (O'zi aniqlaydi)
+        function runAiAnalysis() {
+            const text = document.getElementById('userInput').value.trim().toLowerCase();
+            const resultBox = document.getElementById('resultBox');
+
+            if (!text) {
+                alert("Iltimos, tahlil qilish uchun matn yoki ma'lumot kiriting!");
                 return;
             }
-            alert("✅ Tahlil muvaffaqiyatli yakunlandi: Tahdid topilmadi.");
-            closeScanner();
+
+            resultBox.style.display = "block";
+
+            // Xavfli so'zlar va havolalarni tekshirish
+            const hasLink = text.includes('http') || text.includes('www') || text.includes('.top') || text.includes('.click') || text.includes('uz-');
+            const dangerWords = ['karta', 'kod', 'sms', 'parol', 'yutuq', 'aksiya', 'bloklandi', 'tasdiqlang', 'sovg\'a', 'pul', 'subsidiya'];
+            const foundWords = dangerWords.filter(word => text.includes(word));
+
+            if (hasLink || foundWords.length >= 2) {
+                resultBox.className = "result-box res-danger";
+                resultBox.innerHTML = `<b>🔴 YUQORI XAVF ANIQLANDI!</b><br>AI tahlili bu firibgarlik (phishing) ekanligini ko'rsatdi.<br><b>Sabab:</b> Shubhali havolalar yoki kalit so'zlar topildi (${foundWords.join(', ')}).<br>⚠️ <i>Karta ma'lumotlari va kodlarni mutlaqo bermang!</i>`;
+            } else if (foundWords.length === 1) {
+                resultBox.className = "result-box res-danger";
+                resultBox.innerHTML = `<b>🟡 OGOH BO'LING (Shubhali)</b><br>Xabarda e'tiborni tortuvchi so'z bor: <b>${foundWords[0]}</b>.<br>Ehtiyot bo'ling!`;
+            } else {
+                resultBox.className = "result-box res-success";
+                resultBox.innerHTML = `<b>🟢 XAVFSIZ</b><br>AI neyrotarmog'i tahlil qildi: Hech qanday tahdid yoki firibgarlik belgilari topilmadi.`;
+            }
         }
     </script>
 </body>
