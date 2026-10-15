@@ -269,6 +269,7 @@
 
         .input-area {
             width: 100%;
+            max-width: 320px;
             margin-top: 15px;
         }
 
@@ -317,7 +318,7 @@
                 <div class="header-title">RAQAMLI QALQON</div>
                 <div class="header-subtitle" id="subHeaderStatus">AI Proaktiv Himoya Yoqilgan</div>
             </div>
-            <button class="settings-btn" onclick="alert('⚙️ AI-Qalqon Sozlamalari bo\'limi')">
+            <button class="settings-btn" onclick="alert('⚙️ AI-Qalqon Sozlamalari')">
                 <i class="fa-solid fa-gear"></i>
             </button>
         </div>
@@ -341,7 +342,7 @@
         </div>
 
         <!-- Crisis Button -->
-        <button class="crisis-btn" onclick="alert('⚠️ CRISIS MODE: Barshplastik kartalar xavfsizlik rejimiga o\'tkazildi!')">
+        <button class="crisis-btn" onclick="alert('⚠️ CRISIS MODE: Barcha kartalar vaqtincha bloklandi!')">
             <i class="fa-solid fa-triangle-exclamation"></i> INQIROZ REJASI (CRISIS MODE)
         </button>
 
@@ -363,7 +364,7 @@
                 <div class="module-name">QR Visual AI</div>
                 <div class="module-desc">TuzoqQR skanerlash</div>
             </div>
-            <div class="module-card" onclick="openScanner('Telegram Guard', 'Bot va Mini App havfsizligini skanerlash:')">
+            <div class="module-card" onclick="openScanner('Telegram Guard', 'Bot va Mini App xavfsizligini tekshirish:')">
                 <div class="module-icon"><i class="fa-brands fa-telegram"></i></div>
                 <div class="module-name">Telegram Guard</div>
                 <div class="module-desc">Mini App & Bot xavfsizligi</div>
@@ -381,8 +382,8 @@
         <div class="scanner-sub" id="modalSub">Tizim neyrotarmoq orqali tekshirmoqda</div>
 
         <div class="input-area">
-            <textarea id="scanInput" placeholder="Tekshirish uchun matn yoki ssilka kiriting..."></textarea>
-            <button class="btn-action" onclick="runAnalysis()">TEKSHIRISHNI BOSHLASH</button>
+            <textarea id="scanInput" placeholder="Tekshirish uchun ma'lumot kiriting..."></textarea>
+            <button class="btn-action" onclick="runAnalysis()">TEKSHIRISH</button>
         </div>
 
         <button class="btn-close" onclick="closeScanner()">YOPISH</button>
@@ -408,10 +409,10 @@
         function runAnalysis() {
             const val = document.getElementById('scanInput').value;
             if(!val) {
-                alert("Iltimos, tekshirish uchun ma'lumot kiriting!");
+                alert("Iltimos, ma'lumot kiriting!");
                 return;
             }
-            alert("✅ Tahlil yakunlandi: Ushbu ma'lumot AI-Qalqon tomonidan tekshirildi va xavfsiz deb topildi!");
+            alert("✅ Tahlil muvaffaqiyatli yakunlandi: Tahdid topilmadi.");
             closeScanner();
         }
     </script>
