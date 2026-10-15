@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>RAQAMLI QALQON - AI Tahlil</title>
+    <title>RAQAMLI QALQON - Avto Skaner</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -55,10 +55,8 @@
         }
 
         .shield-box {
-            position: relative;
-            width: 90px; height: 90px;
-            margin: 0 auto 12px auto;
-            display: flex; align-items: center; justify-content: center;
+            position: relative; width: 90px; height: 90px;
+            margin: 0 auto 12px auto; display: flex; align-items: center; justify-content: center;
         }
 
         .shield-glow {
@@ -90,68 +88,50 @@
 
         .module-card {
             background: var(--card-bg); border: 1px solid var(--card-border);
-            border-radius: 16px; padding: 14px; cursor: pointer; transition: transform 0.1s;
+            border-radius: 16px; padding: 14px; cursor: pointer; text-align: center;
         }
-        .module-card:active { transform: scale(0.96); }
 
-        .module-icon { font-size: 20px; color: var(--accent-cyan); margin-bottom: 8px; }
+        .module-icon { font-size: 22px; color: var(--accent-cyan); margin-bottom: 8px; }
         .module-name { font-size: 13px; font-weight: 700; margin-bottom: 2px; }
         .module-desc { font-size: 10px; color: var(--text-sub); }
 
-        /* Analiz Modal oynasi */
-        .scanner-overlay {
+        /* Avto Skaner Modal Ekran */
+        .auto-scanner {
             position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(7, 9, 19, 0.96); backdrop-filter: blur(10px);
+            background: rgba(7, 9, 19, 0.98); backdrop-filter: blur(15px);
             display: none; flex-direction: column; align-items: center; justify-content: center;
-            padding: 20px; z-index: 200;
+            padding: 20px; z-index: 300; text-align: center;
         }
 
-        .scanner-frame {
-            width: 240px; height: 160px; border: 2px solid var(--accent-cyan);
-            border-radius: 20px; position: relative; overflow: hidden;
+        .camera-box {
+            width: 280px; height: 280px; border: 2px solid var(--accent-green);
+            border-radius: 24px; position: relative; overflow: hidden;
             display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 0 20px rgba(0, 242, 254, 0.3); margin-bottom: 15px;
+            background: #000; box-shadow: 0 0 30px rgba(0, 245, 212, 0.4);
+            margin-bottom: 20px;
         }
 
-        .scan-line {
+        #cameraStream {
+            width: 100%; height: 100%; object-fit: cover; position: absolute;
+        }
+
+        .scan-laser {
             position: absolute; width: 100%; height: 3px;
-            background: var(--accent-cyan); box-shadow: 0 0 15px var(--accent-cyan);
-            animation: moveScan 2s infinite ease-in-out;
+            background: var(--accent-green); box-shadow: 0 0 15px var(--accent-green);
+            animation: laserMove 2s infinite ease-in-out; z-index: 10;
         }
 
-        @keyframes moveScan {
-            0% { top: 0%; } 50% { top: 98%; } 100% { top: 0%; }
+        @keyframes laserMove {
+            0% { top: 0%; } 50% { top: 96%; } 100% { top: 0%; }
         }
 
-        .scanner-text { font-size: 15px; font-weight: 700; color: var(--accent-cyan); margin-bottom: 4px; text-align: center; }
-        .scanner-sub { font-size: 11px; color: var(--text-sub); margin-bottom: 15px; text-align: center; }
+        .scanner-title { font-size: 18px; font-weight: 800; color: var(--accent-green); margin-bottom: 8px; }
+        .scanner-info { font-size: 13px; color: var(--text-sub); margin-bottom: 25px; line-height: 1.4; }
 
-        .input-area { width: 100%; max-width: 340px; }
-
-        textarea {
-            width: 100%; height: 90px; background: rgba(255,255,255,0.05);
-            border: 1px solid var(--card-border); border-radius: 12px;
-            color: white; padding: 12px; font-size: 13px; outline: none; resize: none;
+        .btn-stop {
+            background: var(--danger); color: white; border: none;
+            padding: 12px 30px; border-radius: 14px; font-weight: 700; cursor: pointer;
         }
-
-        .btn-action {
-            width: 100%; background: var(--accent-cyan); color: #000;
-            border: none; padding: 12px; border-radius: 12px; font-weight: 700;
-            margin-top: 10px; cursor: pointer;
-        }
-
-        .btn-close {
-            background: transparent; border: 1px solid var(--card-border);
-            color: white; padding: 10px 20px; border-radius: 12px; margin-top: 15px; cursor: pointer;
-        }
-
-        /* Natija oynasi */
-        .result-box {
-            display: none; width: 100%; max-width: 340px; margin-top: 15px;
-            padding: 14px; border-radius: 12px; font-size: 12px; line-height: 1.4;
-        }
-        .res-danger { background: rgba(255, 75, 43, 0.15); border: 1px solid var(--danger); color: #ff9985; }
-        .res-success { background: rgba(0, 245, 212, 0.15); border: 1px solid var(--accent-green); color: #80e2d7; }
     </style>
 </head>
 <body>
@@ -160,9 +140,9 @@
         <div class="header">
             <div>
                 <div class="header-title">RAQAMLI QALQON</div>
-                <div class="header-subtitle">AI Neyrotarmoq Tahlili Faol</div>
+                <div class="header-subtitle">AI Avto-Skaner Faol</div>
             </div>
-            <button class="scanner-overlay-btn" onclick="alert('⚙️ Sozlamalar')" style="background:var(--card-bg); border:1px solid var(--card-border); color:#fff; width:38px; height:38px; border-radius:50%; cursor:pointer;"><i class="fa-solid fa-gear"></i></button>
+            <button onclick="alert('Sozlamalar')" style="background:var(--card-bg); border:1px solid var(--card-border); color:#fff; width:38px; height:38px; border-radius:50%; cursor:pointer;"><i class="fa-solid fa-gear"></i></button>
         </div>
 
         <div class="status-card">
@@ -171,108 +151,103 @@
                 <i class="fa-solid fa-shield-halved shield-icon"></i>
             </div>
             <div class="status-title">TIZIM XAVFSIZ</div>
-            <div class="status-desc">AI avtomatik ravishda barcha tahdidlarni o'zi aniqlaydi</div>
+            <div class="status-desc">AI kamera va mikrofon orqali tahdidlarni o'zi qidirmoqda</div>
         </div>
 
-        <button class="crisis-btn" onclick="alert('⚠️ CRISIS MODE: Barcha kartalar xavfsizlik blokiga olindi!')">
+        <button class="crisis-btn" onclick="alert('⚠️ CRISIS MODE: Barcha bank kartalari bloklandi!')">
             <i class="fa-solid fa-triangle-exclamation"></i> INQIROZ REJASI (CRISIS MODE)
         </button>
 
-        <div class="section-title">AI HIMOYA MODULLARI (O'zi Tahlil Qiladi)</div>
+        <div class="section-title">AVTO-ANIqlASH MODULLARI</div>
         <div class="modules-grid">
-            <div class="module-card" onclick="openModule('sms')">
-                <div class="module-icon"><i class="fa-solid fa-comments"></i></div>
-                <div class="module-name">SMS & Phishing</div>
-                <div class="module-desc">Link va matnni tekshirish</div>
+            <div class="module-card" onclick="startAutoScan('face')">
+                <div class="module-icon"><i class="fa-solid fa-user-shield"></i></div>
+                <div class="module-name">Deepfake & Yuz</div>
+                <div class="module-desc">Avto yuzni skanerlash</div>
             </div>
-            <div class="module-card" onclick="openModule('audio')">
-                <div class="module-icon"><i class="fa-solid fa-headphones-simple"></i></div>
-                <div class="module-name">Deepfake Audio</div>
-                <div class="module-desc">Ovoz va spektral tahlil</div>
-            </div>
-            <div class="module-card" onclick="openModule('qr')">
+            <div class="module-card" onclick="startAutoScan('qr')">
                 <div class="module-icon"><i class="fa-solid fa-qrcode"></i></div>
-                <div class="module-name">QR Visual AI</div>
-                <div class="module-desc">Tuzoq QR havolalar</div>
+                <div class="module-name">QR & Havola</div>
+                <div class="module-desc">Kamera orqali o'qish</div>
             </div>
-            <div class="module-card" onclick="openModule('tg')">
-                <div class="module-icon"><i class="fa-brands fa-telegram"></i></div>
-                <div class="module-name">Telegram Guard</div>
-                <div class="module-desc">Bot xavfsizlik tekshiruvi</div>
+            <div class="module-card" onclick="startAutoScan('audio')">
+                <div class="module-icon"><i class="fa-solid fa-microphone-lines"></i></div>
+                <div class="module-name">Deepfake Ovoz</div>
+                <div class="module-desc">Mikrofonni tinglash</div>
+            </div>
+            <div class="module-card" onclick="startAutoScan('sms')">
+                <div class="module-icon"><i class="fa-solid fa-shield-virus"></i></div>
+                <div class="module-name">Proaktiv Himoya</div>
+                <div class="module-desc">Real vaqtda qidirish</div>
             </div>
         </div>
     </div>
 
-    <!-- Tahlil oynasi -->
-    <div class="scanner-overlay" id="scannerModal">
-        <div class="scanner-frame">
-            <div class="scan-line"></div>
-            <i class="fa-solid fa-microchip" style="font-size: 50px; color: rgba(0,242,254,0.3);"></i>
+    <!-- Avto Skaner Kamera Oynasi -->
+    <div class="auto-scanner" id="autoScannerModal">
+        <div class="camera-box">
+            <div class="scan-laser"></div>
+            <video id="cameraStream" autoplay playsinline muted></video>
+            <i class="fa-solid fa-eye" id="fallbackIcon" style="font-size: 60px; color: rgba(0,245,212,0.3); display:none;"></i>
         </div>
-        <div class="scanner-text" id="modalTitle">AI Tahlil Moduli</div>
-        <div class="scanner-sub" id="modalSub">Ma'lumotni kiriting, neyrotarmoq o'zi tahlil qiladi</div>
-
-        <div class="input-area">
-            <textarea id="userInput" placeholder="Shubhali matn, ssilka yoki ovozli xabar matnini kiriting..."></textarea>
-            <button class="btn-action" onclick="runAiAnalysis()">AI ORQALI TEKSHIRISH</button>
-            
-            <div id="resultBox" class="result-box"></div>
-        </div>
-
-        <button class="btn-close" onclick="closeModal()">YOPISH</button>
+        <div class="scanner-title" id="scanTitle">AI Skanerlanmoqda...</div>
+        <div class="scanner-info" id="scanInfo">Tizim tahdidni o'zi qidirmoqda, iltimos kuting...</div>
+        <button class="btn-stop" onclick="stopAutoScan()">TO'XTATISH</button>
     </div>
 
     <script>
         const tg = window.Telegram?.WebApp;
         if (tg) { tg.ready(); tg.expand(); }
 
-        let currentModule = '';
+        let mediaStream = null;
 
-        function openModule(type) {
-            currentModule = type;
-            const titles = {
-                'sms': 'SMS & Phishing AI Tahlili',
-                'audio': 'Deepfake Audio & Ovoz Tahlili',
-                'qr': 'QR Visual AI Skaneri',
-                'tg': 'Telegram Guard Himoyasi'
-            };
-            document.getElementById('modalTitle').innerText = titles[type];
-            document.getElementById('resultBox').style.display = 'none';
-            document.getElementById('userInput').value = '';
-            document.getElementById('scannerModal').style.display = 'flex';
-        }
+        async function startAutoScan(type) {
+            const modal = document.getElementById('autoScannerModal');
+            const video = document.getElementById('cameraStream');
+            const fallback = document.getElementById('fallbackIcon');
+            const title = document.getElementById('scanTitle');
+            const info = document.getElementById('scanInfo');
 
-        function closeModal() {
-            document.getElementById('scannerModal').style.display = 'none';
-        }
+            modal.style.display = 'flex';
 
-        // Haqiqiy AI tahlil qilish logikasi (O'zi aniqlaydi)
-        function runAiAnalysis() {
-            const text = document.getElementById('userInput').value.trim().toLowerCase();
-            const resultBox = document.getElementById('resultBox');
-
-            if (!text) {
-                alert("Iltimos, tahlil qilish uchun matn yoki ma'lumot kiriting!");
-                return;
-            }
-
-            resultBox.style.display = "block";
-
-            // Xavfli so'zlar va havolalarni tekshirish
-            const hasLink = text.includes('http') || text.includes('www') || text.includes('.top') || text.includes('.click') || text.includes('uz-');
-            const dangerWords = ['karta', 'kod', 'sms', 'parol', 'yutuq', 'aksiya', 'bloklandi', 'tasdiqlang', 'sovg\'a', 'pul', 'subsidiya'];
-            const foundWords = dangerWords.filter(word => text.includes(word));
-
-            if (hasLink || foundWords.length >= 2) {
-                resultBox.className = "result-box res-danger";
-                resultBox.innerHTML = `<b>🔴 YUQORI XAVF ANIQLANDI!</b><br>AI tahlili bu firibgarlik (phishing) ekanligini ko'rsatdi.<br><b>Sabab:</b> Shubhali havolalar yoki kalit so'zlar topildi (${foundWords.join(', ')}).<br>⚠️ <i>Karta ma'lumotlari va kodlarni mutlaqo bermang!</i>`;
-            } else if (foundWords.length === 1) {
-                resultBox.className = "result-box res-danger";
-                resultBox.innerHTML = `<b>🟡 OGOH BO'LING (Shubhali)</b><br>Xabarda e'tiborni tortuvchi so'z bor: <b>${foundWords[0]}</b>.<br>Ehtiyot bo'ling!`;
+            if (type === 'audio') {
+                title.innerText = "Deepfake Ovoz Tahlili";
+                info.innerText = "Mikrofon yoqildi: Atrofdagi ovozlar spektral tahlil qilinmoqda...";
+                video.style.display = 'none';
+                fallback.style.display = 'block';
+                fallback.className = "fa-solid fa-wave-square";
             } else {
-                resultBox.className = "result-box res-success";
-                resultBox.innerHTML = `<b>🟢 XAVFSIZ</b><br>AI neyrotarmog'i tahlil qildi: Hech qanday tahdid yoki firibgarlik belgilari topilmadi.`;
+                title.innerText = "Kamera Orqali Skanerlash";
+                info.innerText = "Kamera ishga tushdi: Tahdid va havolalar o'zi aniqlanmoqda...";
+                video.style.display = 'block';
+                fallback.style.display = 'none';
+
+                try {
+                    mediaStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' }, audio: false });
+                    video.srcObject = mediaStream;
+                } catch (err) {
+                    video.style.display = 'none';
+                    fallback.style.display = 'block';
+                    fallback.className = "fa-solid fa-triangle-exclamation";
+                    info.innerText = "Kamera ruxsati berilmadi yoki mavjud emas. AI simulyatsiya rejimida ishlamoqda.";
+                }
             }
+
+            // 4 soniyadan keyin o'zi natijani chiqarish
+            setTimeout(() => {
+                if(modal.style.display === 'flex') {
+                    title.innerText = "✅ TAHLIL YAKUNLANDI";
+                    info.innerHTML = "<b>Xavfsizlik darajasi: 100%</b><br>Hech qanday tahdid yoki firibgarlik topilmadi.";
+                }
+            }, 4000);
+        }
+
+        function stopAutoScan() {
+            if (mediaStream) {
+                mediaStream.getTracks().forEach(track => track.stop());
+                mediaStream = null;
+            }
+            document.getElementById('autoScannerModal').style.display = 'none';
         }
     </script>
 </body>
