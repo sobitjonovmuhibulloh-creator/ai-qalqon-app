@@ -1,207 +1,237 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uz">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>AI-QALQON - Xavfsizlik Paneli</title>
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <style>
-        :root {
-            --bg-color: #070913;
-            --card-bg: #121829;
-            --card-border: #1e293b;
-            --accent-cyan: #00f2fe;
-            --accent-green: #00f5d4;
-            --danger: #ff4b2b;
-            --text-main: #ffffff;
-            --text-sub: #8a99ad;
-        }
-
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            margin: 0;
-            padding: 16px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-        }
-
-        .container { width: 100%; max-width: 420px; display: none; }
-
-        /* Ruxsat So'rash Oynasi */
-        .permission-overlay {
-            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(7, 9, 19, 0.98); backdrop-filter: blur(20px);
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            padding: 24px; z-index: 1000; text-align: center;
-        }
-
-        .perm-icon-box {
-            width: 80px; height: 80px; background: rgba(0, 245, 212, 0.1);
-            border: 2px solid var(--accent-green); border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 36px; color: var(--accent-green); margin-bottom: 20px;
-            box-shadow: 0 0 20px rgba(0, 245, 212, 0.3);
-        }
-
-        .perm-title { font-size: 20px; font-weight: 800; margin-bottom: 12px; }
-        .perm-desc { font-size: 13px; color: var(--text-sub); line-height: 1.5; margin-bottom: 30px; }
-
-        .btn-group { width: 100%; display: flex; flex-direction: column; gap: 12px; }
-
-        .btn-allow {
-            width: 100%; background: linear-gradient(135deg, var(--accent-cyan), var(--accent-green));
-            color: #070913; border: none; padding: 14px; border-radius: 14px;
-            font-weight: 800; font-size: 14px; cursor: pointer;
-        }
-
-        .btn-deny {
-            width: 100%; background: transparent; color: var(--danger);
-            border: 1px solid var(--danger); padding: 14px; border-radius: 14px;
-            font-weight: 700; font-size: 14px; cursor: pointer;
-        }
-
-        /* Asosiy Dizayn */
-        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
-        .header-title { font-size: 20px; font-weight: 800; }
-        .header-subtitle { font-size: 11px; color: var(--accent-green); font-weight: 600; }
-
-        .status-card {
-            background: linear-gradient(145deg, #121829 0%, #0d1322 100%);
-            border: 1px solid var(--card-border); border-radius: 24px; padding: 20px 16px;
-            text-align: center; margin-bottom: 16px;
-        }
-
-        .shield-box {
-            position: relative; width: 90px; height: 90px; margin: 0 auto 12px auto;
-            display: flex; align-items: center; justify-content: center;
-        }
-
-        .shield-glow {
-            position: absolute; width: 100%; height: 100%;
-            background: rgba(0, 245, 212, 0.15); border-radius: 50%; filter: blur(12px);
-        }
-
-        .shield-icon { font-size: 46px; color: var(--accent-green); z-index: 2; }
-        .status-title { font-size: 18px; font-weight: 800; margin-bottom: 4px; }
-        .status-desc { font-size: 12px; color: var(--text-sub); margin-bottom: 16px; }
-
-        .crisis-btn {
-            width: 100%; background: linear-gradient(135deg, #ff4b2b 0%, #ff416c 100%);
-            color: white; border: none; border-radius: 16px; padding: 14px;
-            font-size: 13px; font-weight: 700; display: flex; align-items: center;
-            justify-content: center; gap: 8px; cursor: pointer; margin-bottom: 20px;
-        }
-
-        .section-title {
-            font-size: 11px; font-weight: 700; color: var(--text-sub);
-            letter-spacing: 1px; text-transform: uppercase; margin-bottom: 10px;
-        }
-
-        .modules-grid {
-            display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px;
-        }
-
-        .module-card {
-            background: var(--card-bg); border: 1px solid var(--card-border);
-            border-radius: 16px; padding: 14px; cursor: pointer; text-align: center;
-        }
-
-        .module-icon { font-size: 22px; color: var(--accent-cyan); margin-bottom: 8px; }
-        .module-name { font-size: 13px; font-weight: 700; margin-bottom: 2px; }
-        .module-desc { font-size: 10px; color: var(--text-sub); }
-    </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>AI-Qalqon</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<style>
+:root{--bg:#0b1220;--card:#131c2e;--line:#22304a;--tx:#eaf0fa;--mut:#8a99b3;--ac:#1fd18b;--wr:#f0b429;--dg:#ef4d57}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.45 system-ui,-apple-system,sans-serif;padding:0 0 40px}
+.container{max-width:520px;margin:0 auto;padding:16px}
+header{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.logo{width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#1fd18b,#0d7a55);display:grid;place-items:center;font-size:24px}
+h1{font-size:19px;margin:0}.sub{color:var(--mut);font-size:12px}
+.status{background:linear-gradient(135deg,#12382c,#131c2e);border:1px solid #1d5a45;border-radius:16px;padding:14px;margin-bottom:14px}
+.status b{color:var(--ac)}.dot{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--ac);margin-right:6px;animation:p 1.8s infinite}
+@keyframes p{50%{opacity:.35}}
+.stats{display:flex;gap:10px;margin-top:10px}.stats div{flex:1;background:#0b1220aa;border-radius:12px;padding:8px 10px;font-size:12px;color:var(--mut)}
+.stats strong{display:block;font-size:20px;color:var(--tx)}
+h2{font-size:13px;color:var(--mut);text-transform:uppercase;letter-spacing:.06em;margin:18px 0 8px}
+.modules-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.mod{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;text-align:left;color:var(--tx);font:inherit;cursor:pointer}
+.mod:active{transform:scale(.97)}.mod .ic{font-size:26px}.mod b{display:block;margin:6px 0 2px}.mod small{color:var(--mut);font-size:12px}
+.tag{font-size:10px;background:#2a3550;border-radius:6px;padding:1px 6px;margin-left:4px;color:var(--wr)}
+.list .it{background:var(--card);border-left:4px solid var(--ac);border-radius:10px;padding:9px 12px;margin-bottom:8px;font-size:13px}
+.it.warn{border-color:var(--wr)}.it.danger{border-color:var(--dg)}.it span{color:var(--mut);font-size:11px;display:block}
+.crisis{width:100%;margin-top:16px;padding:15px;border:0;border-radius:14px;background:var(--dg);color:#fff;font:700 16px system-ui}
+.overlay{position:fixed;inset:0;background:#000b;display:none;align-items:flex-end;justify-content:center;z-index:20}
+.overlay.on{display:flex}.sheet{background:var(--bg);border-radius:20px 20px 0 0;width:100%;max-width:520px;max-height:92vh;overflow:auto;padding:18px 16px 28px;border:1px solid var(--line)}
+.sheet h3{margin:0 0 4px;font-size:18px}.close{float:right;background:none;border:0;color:var(--mut);font-size:22px}
+textarea,input[type=text]{width:100%;margin-top:10px;padding:12px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--tx);font:inherit}
+textarea{min-height:120px;resize:vertical}
+.btn{width:100%;margin-top:10px;padding:13px;border:0;border-radius:12px;background:var(--ac);color:#04281c;font:700 15px system-ui}
+.btn.sec{background:transparent;color:var(--ac);border:1px solid var(--ac)}.btn.red{background:var(--dg);color:#fff}
+.res{margin-top:14px;border-radius:14px;padding:14px;background:var(--card);border-left:5px solid var(--ac)}
+.res.warn{border-color:var(--wr)}.res.danger{border-color:var(--dg)}.res h4{margin:0 0 6px;font-size:16px}.res ul{margin:6px 0;padding-left:18px}
+.note{color:var(--mut);font-size:12px;margin-top:8px}
+.center{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px}
+.center .big{font-size:60px}.hide{display:none!important}
+ol{padding-left:20px}ol li{margin-bottom:8px}a.btn{display:block;text-align:center;text-decoration:none}
+</style>
 </head>
 <body>
 
-    <!-- Ruxsat So'rash Oynasi -->
-    <div class="permission-overlay" id="permModal">
-        <div class="perm-icon-box">
-            <i class="fa-solid fa-shield-halved"></i>
-        </div>
-        <div class="perm-title">Xavfsizlik Ruxsati Kerak</div>
-        <div class="perm-desc">
-            "AI-Qalqon" tizimi xakerlar, zararli havolalar, soxta fayllar va tahdidlarni to'liq avtomatik skanerlashi uchun qurilma resurslariga ruxsat zarur.
-        </div>
-        <div class="btn-group">
-            <button class="btn-allow" onclick="grantPermission()">RUXSAT BERISH (HA)</button>
-            <button class="btn-deny" onclick="denyPermission()">RAD ETISH (YO'Q)</button>
-        </div>
-    </div>
+<!-- Ruxsat oynasi -->
+<div id="permModal" class="center hide">
+  <div class="big">🛡</div>
+  <h2 style="font-size:22px;color:var(--tx);text-transform:none;letter-spacing:0">AI-Qalqon'ga xush kelibsiz</h2>
+  <p style="max-width:340px;color:var(--mut)">Men faqat <b style="color:var(--tx)">siz tekshirishga yuborgan</b> matn, havola, QR va ovozni tahlil qilaman. Tahlil telefoningizning o'zida bajariladi. SMS, kontakt, qo'ng'iroq va fayllaringizga kirmayman.</p>
+  <button class="btn" style="max-width:340px" onclick="grantPermission()">✅ Roziman</button>
+  <button class="btn sec" style="max-width:340px" onclick="denyPermission()">Rad etish</button>
+</div>
 
-    <!-- Asosiy Interfeys -->
-    <div class="container" id="mainApp">
-        <div class="header">
-            <div>
-                <div class="header-title">RAQAMLI QALQON</div>
-                <div class="header-subtitle">AI Avto-Skaner Faol</div>
-            </div>
-            <button style="background:var(--card-bg); border:1px solid var(--card-border); color:#fff; width:38px; height:38px; border-radius:50%; cursor:pointer;"><i class="fa-solid fa-gear"></i></button>
-        </div>
+<div id="deniedView" class="center hide">
+  <div class="big">🔒</div><h2 style="font-size:22px;color:var(--tx);text-transform:none">Himoya yoqilmadi</h2>
+  <p style="color:var(--mut);max-width:320px">Rozilik bermasangiz, tekshiruv modullari ishlamaydi. Istalgan vaqtda qayta yoqishingiz mumkin.</p>
+  <button class="btn" style="max-width:320px" onclick="showPerm()">Qayta urinish</button>
+</div>
 
-        <div class="status-card">
-            <div class="shield-box">
-                <div class="shield-glow"></div>
-                <i class="fa-solid fa-shield-halved shield-icon"></i>
-            </div>
-            <div class="status-title">TIZIM XAVFSIZ</div>
-            <div class="status-desc">Fayllar va chatlar avtomatik himoyada</div>
-        </div>
+<!-- Asosiy ilova -->
+<div class="container hide" id="mainApp">
+  <header><div class="logo">🛡</div><div><h1>AI-Qalqon</h1><div class="sub">Firibgar sizdan oldin to'xtasin</div></div></header>
 
-        <button class="crisis-btn" onclick="alert('⚠️ CRISIS MODE: Barcha bank kartalari bloklandi!')">
-            <i class="fa-solid fa-triangle-exclamation"></i> INQIROZ REJASI (CRISIS MODE)
-        </button>
+  <div class="status">
+    <div><span class="dot"></span><b>Tizim tayyor.</b> Shubhali narsani tekshirishga yuboring.</div>
+    <div class="stats"><div><strong id="stChecks">0</strong>tekshiruv</div><div><strong id="stThreats">0</strong>xavf topildi</div><div><strong>Local</strong>tahlil rejimi</div></div>
+  </div>
 
-        <div class="section-title">SKANERLASH MODULLARI</div>
-        <div class="modules-grid">
-            <div class="module-card" onclick="alert('📸 Deepfake va yuz skaneri faollashdi...')">
-                <div class="module-icon"><i class="fa-solid fa-user-shield"></i></div>
-                <div class="module-name">Deepfake & Yuz</div>
-                <div class="module-desc">Avto yuzni tekshirish</div>
-            </div>
-            <div class="module-card" onclick="alert('🔗 QR va havolalar avtomatik tahlil qilinmoqda...')">
-                <div class="module-icon"><i class="fa-solid fa-qrcode"></i></div>
-                <div class="module-name">QR & Havola</div>
-                <div class="module-desc">Soxta linklarni aniqlash</div>
-            </div>
-            <div class="module-card" onclick="alert('🎙️ Mikrofon va ovoz spektri tahlil qilinmoqda...')">
-                <div class="module-icon"><i class="fa-solid fa-microphone-lines"></i></div>
-                <div class="module-name">Deepfake Ovoz</div>
-                <div class="module-desc">Soxta ovozni aniqlash</div>
-            </div>
-            <div class="module-card" onclick="alert('🛡️ Telegram Guard: Chatlar va APK fayllar himoyada.')">
-                <div class="module-icon"><i class="fa-solid fa-shield-virus"></i></div>
-                <div class="module-name">Telegram Guard</div>
-                <div class="module-desc">Chat va fayllar</div>
-            </div>
-        </div>
-    </div>
+  <h2>Modullar</h2>
+  <div class="modules-grid">
+    <button class="mod" onclick="openModule('sms')"><div class="ic">💬</div><b>SMS va Phishing</b><small>Matn va xabar tahlili</small></button>
+    <button class="mod" onclick="openModule('audio')"><div class="ic">🎙</div><b>Deepfake Audio<span class="tag">beta</span></b><small>Sintetik ovoz belgilari</small></button>
+    <button class="mod" onclick="openModule('qr')"><div class="ic">📷</div><b>QR Visual AI</b><small>QR va havola skaneri</small></button>
+    <button class="mod" onclick="openModule('guard')"><div class="ic">📦</div><b>Telegram Guard</b><small>APK va guruh himoyasi</small></button>
+  </div>
 
-    <script>
-        const tg = window.Telegram?.WebApp;
-        if (tg) { tg.ready(); tg.expand(); }
+  <h2>So'nggi xavf-xatarlar</h2>
+  <div class="list" id="hist"><div class="it"><span>Hozircha bo'sh</span>Tekshiruv natijalari shu yerda ko'rinadi.</div></div>
 
-        function grantPermission() {
-            document.getElementById('permModal').style.display = 'none';
-            document.getElementById('mainApp').style.display = 'block';
-        }
+  <button class="crisis" onclick="openModule('crisis')">🚨 INQIROZ REJIMI: pulim yechilyapti</button>
+</div>
 
-        function denyPermission() {
-            alert("❌ Xavfsizlik ruxsati berilmadi! Ilova ishlay olmaydi.");
-            document.body.innerHTML = `
-                <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; height:100vh; text-align:center; padding:20px; color:#ff4b2b;">
-                    <i class="fa-solid fa-ban" style="font-size:60px; margin-bottom:20px;"></i>
-                    <h2>Ilova Bloklandi</h2>
-                    <p style="color:#8a99ad; font-size:13px;">Himoya ruxsati berilmagani uchun AI-Qalqon ishga tusha olmaydi.</p>
-                </div>
-            `;
-        }
-    </script>
+<div class="overlay" id="ov" onclick="if(event.target===this)closeSheet()"><div class="sheet" id="sheet"></div></div>
+
+<script>
+const tg = window.Telegram?.WebApp;
+if (tg) { tg.ready(); tg.expand(); tg.setHeaderColor?.('#0b1220'); tg.setBackgroundColor?.('#0b1220'); }
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const store = {
+  get(k, d) { try { const v = localStorage.getItem(k); return v === null ? d : JSON.parse(v); } catch { return d; } },
+  set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} }
+};
+let stats = store.get('qs', {checks: 0, threats: 0}), hist = store.get('qh', []);
+
+/* ---------- Ruxsat ---------- */
+function show(id, on) { $('#' + id).classList.toggle('hide', !on); }
+function showPerm() { show('deniedView', false); show('permModal', true); }
+function grantPermission() { store.set('consent', true); show('permModal', false); show('deniedView', false); show('mainApp', true); render(); }
+function denyPermission() { show('permModal', false); show('mainApp', false); show('deniedView', true); }
+store.get('consent', false) ? grantPermission() : showPerm();
+
+/* ---------- Tarix va statistika ---------- */
+function render() {
+  $('#stChecks').textContent = stats.checks; $('#stThreats').textContent = stats.threats;
+  if (hist.length) $('#hist').innerHTML = hist.map(h =>
+    `<div class="it ${h.l}"><span>${esc(h.t)} · ${esc(h.k)}</span>${esc(h.s)}</div>`).join('');
+}
+function record(kind, sample, level) {
+  stats.checks++; if (level !== 'ok') stats.threats++;
+  const lbl = {ok: '✅ Xavf belgisi yo\'q', warn: '⚠️ Ehtiyot bo\'ling', danger: '🚫 Xavfli'}[level];
+  hist.unshift({k: kind, s: lbl + ': ' + sample.slice(0, 40), l: level, t: new Date().toLocaleTimeString('uz', {hour: '2-digit', minute: '2-digit'})});
+  hist = hist.slice(0, 5); store.set('qs', stats); store.set('qh', hist); render();
+}
+
+/* ---------- Natija ko'rinishi ---------- */
+function verdict(kind, sample, score, why, note) {
+  const level = score >= 60 ? 'danger' : score >= 25 ? 'warn' : 'ok';
+  record(kind, sample, level);
+  tg?.HapticFeedback?.notificationOccurred(level === 'ok' ? 'success' : level === 'warn' ? 'warning' : 'error');
+  const title = {ok: '✅ Xavf belgisi topilmadi', warn: '⚠️ Ehtiyot bo\'ling', danger: '🚫 Xavfli ko\'rinadi'}[level];
+  if (!why.length) why = ['Shubhali belgi sezilmadi.'];
+  return `<div class="res ${level}"><h4>${title} (${Math.min(score, 100)}/100)</h4><ul>${why.map(w => `<li>${esc(w)}</li>`).join('')}</ul>
+    ${note ? `<div class="note">${esc(note)}</div>` : ''}
+    ${level === 'ok' ? '<div class="note">Bu faqat tekshirilgan narsa haqida. Telefoningiz butunlay toza degani emas.</div>' : ''}</div>`;
+}
+
+/* ---------- Matn tahlili ---------- */
+const TEXT_RULES = [
+  [/(otp|sms[- ]?kod|tasdiqlash kodi|код из смс|одноразов)/i, 35, 'Tasdiqlash (OTP) kodini so\'rayapti. Bank hech qachon bunday so\'ramaydi.'],
+  [/(karta raqam|cvv|cvc|срок действия|номер карты|karta ma'lumot)/i, 30, 'Karta ma\'lumotini so\'rayapti.'],
+  [/(shoshiling|zudlik|darhol|soat ichida|bloklanadi|блокир|срочно|немедленно)/i, 20, 'Shoshirish va qo\'rqitish usuli ishlatilgan.'],
+  [/(yutuq|sovrin|bonus|g'olib bo'ldingiz|выигрыш|приз)/i, 20, '«Yutuq / bonus» va\'dasi: firibgarlikning keng tarqalgan usuli.'],
+  [/(qimor|kazino|casino|ставк|betting|1xbet|mostbet)/i, 25, 'Qimor yoki tikish reklamasi belgisi.'],
+  [/(pulni qaytar|o'g'irlangan pul|kompensatsiya|компенсац)/i, 20, '«Pulni qaytaramiz» va\'dasi: qayta firibgarlik usuli.'],
+  [/(\.apk|ilovani o'rnating|установите приложение)/i, 25, 'Noma\'lum ilova (APK) o\'rnatishni so\'rayapti.'],
+  [/https?:\/\/|bit\.ly|tinyurl|t\.me\/\+/i, 10, 'Matnda havola bor: ochishdan oldin «QR / havola» bo\'limida tekshiring.']
+];
+function checkText(t) {
+  let s = 0, why = [];
+  TEXT_RULES.forEach(([rx, w, m]) => { if (rx.test(t)) { s += w; why.push(m); } });
+  return verdict('SMS', t, s, why, 'Qoidalarga asoslangan tahlil, yakuniy hukm emas.');
+}
+
+/* ---------- Havola tahlili ---------- */
+const BAD_TLD = ['xyz', 'top', 'click', 'icu', 'shop', 'live', 'rest', 'cfd', 'sbs', 'gq', 'tk'];
+const BRANDS = ['payme', 'click', 'uzcard', 'humo', 'paynet', 'apelsin', 'anorbank', 'ipakyuli', 'kapitalbank', 'xalqbank', 'uzum', 'telegram', 'google'];
+function checkUrl(raw) {
+  let u; raw = raw.trim();
+  try { u = new URL(/^https?:\/\//i.test(raw) ? raw : 'http://' + raw); } catch { return verdict('Havola', raw, 40, ['Havola formati noto\'g\'ri.']); }
+  const h = u.hostname.toLowerCase(), base = h.split('.').slice(-2).join('.');
+  let s = 0, why = [];
+  if (/^[\d.]+$/.test(h)) { s += 35; why.push('Domen o\'rniga IP-manzil ishlatilgan.'); }
+  if (h.includes('xn--')) { s += 35; why.push('Brendga o\'xshatilgan (punycode) domen belgisi.'); }
+  const tld = h.split('.').pop(); if (BAD_TLD.includes(tld)) { s += 20; why.push(`«.${tld}» zonasi firibgarlikda ko'p uchraydi.`); }
+  const b = BRANDS.find(b => h.includes(b) && !base.startsWith(b + '.'));
+  if (b) { s += 40; why.push(`Domen «${b}» brendiga o'xshatilgan, lekin rasmiy emas.`); }
+  if (h.split('.').length > 4) { s += 15; why.push('Juda ko\'p subdomen: manzilni yashirish usuli.'); }
+  if (u.protocol === 'http:') { s += 10; why.push('Himoyalanmagan (HTTP) ulanish.'); }
+  if (/(bit\.ly|tinyurl|cutt\.ly|t\.co|is\.gd)/.test(h)) { s += 15; why.push('Qisqartirilgan havola: asl manzil yashirilgan.'); }
+  return verdict('Havola', h, s, why, 'Havola ochilmadi, faqat manzil tahlil qilindi.');
+}
+
+/* ---------- Ovoz tahlili (brauzerda) ---------- */
+function fft(re, im) {
+  const n = re.length;
+  for (let i = 1, j = 0; i < n; i++) { let b = n >> 1; for (; j & b; b >>= 1) j ^= b; j ^= b; if (i < j) { [re[i], re[j]] = [re[j], re[i]]; [im[i], im[j]] = [im[j], im[i]]; } }
+  for (let len = 2; len <= n; len <<= 1) { const a = -2 * Math.PI / len;
+    for (let i = 0; i < n; i += len) for (let k = 0; k < len / 2; k++) {
+      const wr = Math.cos(a * k), wi = Math.sin(a * k), p = i + k, q = p + len / 2;
+      const vr = re[q] * wr - im[q] * wi, vi = re[q] * wi + im[q] * wr;
+      re[q] = re[p] - vr; im[q] = im[p] - vi; re[p] += vr; im[p] += vi; } }
+}
+const mean = a => a.reduce((x, y) => x + y, 0) / a.length;
+const std = a => { const m = mean(a); return Math.sqrt(mean(a.map(v => (v - m) ** 2))); };
+async function checkAudio(file) {
+  let x;
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)({sampleRate: 16000});
+    x = (await ctx.decodeAudioData(await file.arrayBuffer())).getChannelData(0).slice(0, 16000 * 30); ctx.close();
+  } catch { return '<div class="res warn"><h4>Audio o\'qilmadi</h4>Bu qurilma ushbu formatni ocha olmadi. MP3, M4A yoki WAV bilan urinib ko\'ring.</div>'; }
+  if (x.length < 32000) return '<div class="res warn"><h4>Audio juda qisqa</h4>Kamida 2 soniya kerak.</div>';
+  const N = 512, step = Math.max(256, Math.floor((x.length - N) / 1500)), en = [], fl = [], hi = [], fx = [];
+  let prev = null;
+  for (let o = 0; o + N <= x.length; o += step) {
+    const re = new Float32Array(N), im = new Float32Array(N);
+    for (let i = 0; i < N; i++) re[i] = x[o + i] * (0.5 - 0.5 * Math.cos(2 * Math.PI * i / (N - 1)));
+    fft(re, im);
+    const mag = [], pw = []; for (let k = 0; k < 257; k++) { const m = Math.hypot(re[k], im[k]) + 1e-9; mag.push(m); pw.push(m * m); }
+    const lg = mag.map(Math.log); en.push(mean(re.map(v => v * v)));
+    fl.push(Math.exp(mean(lg)) / mean(mag)); hi.push(pw.slice(160).reduce((a, b) => a + b, 0) / pw.reduce((a, b) => a + b, 0));
+    if (prev) fx.push(mean(lg.map((v, i) => Math.abs(v - prev[i])))); prev = lg;
+  }
+  let s = 0, why = [];
+  if (std(en) / (mean(en) + 1e-9) < 1.2) { s += 20; why.push('Ovoz balandligi g\'ayritabiiy tekis (pauza va jonli o\'zgarish kam).'); }
+  if (std(fl) < 0.03) { s += 20; why.push('Spektr juda bir xil: sintetik ovozda uchraydi.'); }
+  if (mean(hi) < 0.002) { s += 15; why.push('Yuqori chastotalar kesilgan (siqilgan yoki sun\'iy ovoz belgisi).'); }
+  if (mean(fx) < 0.25) { s += 15; why.push('Tovush o\'tishlari haddan tashqari silliq.'); }
+  return verdict('Audio', file.name, s, why.length ? why : ['Sintetik ovoz belgilari sezilmadi.'], 'BETA: yordamchi signal. Ovoz soxtaligini 100% aniqlab bo\'lmaydi. Audio qurilmadan chiqmadi.');
+}
+
+/* ---------- Modul oynalari ---------- */
+const sheet = $('#sheet');
+function closeSheet() { $('#ov').classList.remove('on'); }
+function head(t, s) { return `<button class="close" onclick="closeSheet()">✕</button><h3>${t}</h3><div class="sub">${s}</div>`; }
+function openModule(m) {
+  let h = '';
+  if (m === 'sms') h = head('💬 SMS va Phishing', 'Shubhali xabarni qo\'ying') +
+    `<textarea id="in" placeholder="Masalan: Kartangiz bloklandi, kodni yuboring…"></textarea><button class="btn" id="go">Tekshirish</button><div id="out"></div>`;
+  if (m === 'qr') h = head('📷 QR Visual AI', 'QR yoki havolani tekshiring') +
+    `<button class="btn" id="scan">📷 QR-kodni skanerlash</button><input type="text" id="in" placeholder="yoki havolani yozing: https://…" inputmode="url"><button class="btn sec" id="go">Havolani tekshirish</button><div id="out"></div>`;
+  if (m === 'audio') h = head('🎙 Deepfake Audio (beta)', 'Ovozli xabarni saqlab, shu yerga tanlang') +
+    `<input type="file" id="in" accept="audio/*" style="margin-top:10px;color:var(--mut)"><button class="btn" id="go">Ovozni tekshirish</button><div id="out"></div>`;
+  if (m === 'guard') h = head('📦 Telegram Guard', 'APK va guruh himoyasi') +
+    `<ol><li>Shubhali <b>APK</b> faylni o'rnatmang, avval AI-Qalqon botiga yuboring.</li><li>Botga faylni <b>forward</b> qiling: u ruxsatlar va imzoni tekshiradi.</li><li>Guruhni himoyalash uchun botni guruhga qo'shib, <b>admin</b> qiling.</li></ol>
+    <div class="note">Mini App telefon fayllariga kira olmaydi. APK tekshiruvi bot orqali bajariladi.</div><button class="btn" onclick="closeSheet();tg?.close()">Botga qaytish</button>`;
+  if (m === 'crisis') h = head('🚨 Inqiroz rejimi', 'Shoshilmang, quyidagilarni ketma-ket bajaring') +
+    `<ol><li><b>Hozir</b> bankingizga qo'ng'iroq qiling (kartangiz orqasidagi raqam) va kartani bloklang.</li><li>Hech kimga <b>OTP kod</b> va karta ma'lumotini aytmang, hatto «bank xodimi» desa ham.</li><li>Gaplashayotgan odamning raqami va yozishmalarini <b>skrinshot</b> qilib saqlang.</li><li>Shubhali ilova o'rnatgan bo'lsangiz, uni o'chiring va parollarni almashtiring.</li><li>Ichki ishlar organlariga xabar bering.</li></ol>
+    <a class="btn red" href="tel:102">📞 102 ga qo'ng'iroq</a><div class="note">Kartani bir bosishda bloklash bank bilan hamkorlik o'rnatilgandan keyin ishlaydi.</div>`;
+  sheet.innerHTML = h; $('#ov').classList.add('on');
+  const out = $('#out'), inp = $('#in'), go = $('#go');
+  if (m === 'sms') go.onclick = () => inp.value.trim() && (out.innerHTML = checkText(inp.value));
+  if (m === 'qr') {
+    go.onclick = () => inp.value.trim() && (out.innerHTML = checkUrl(inp.value));
+    $('#scan').onclick = () => (tg && tg.isVersionAtLeast?.('6.4'))
+      ? tg.showScanQrPopup({text: 'QR-kodni kameraga ko\'rsating'}, t => { tg.closeScanQrPopup(); inp.value = t; out.innerHTML = checkUrl(t); return true; })
+      : tg?.showAlert('Bu qurilmada QR skaner yo\'q. Havolani qo\'lda kiriting.');
+  }
+  if (m === 'audio') go.onclick = async () => {
+    if (!inp.files[0]) return tg ? tg.showAlert('Avval audio tanlang') : alert('Avval audio tanlang');
+    out.innerHTML = '<div class="note">⏳ Tahlil qilinmoqda…</div>'; out.innerHTML = await checkAudio(inp.files[0]);
+  };
+}
+</script>
 </body>
 </html>
